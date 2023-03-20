@@ -25,8 +25,8 @@ public class CustomerController {
 @Autowired
     CustomerService customerService;
     @GetMapping("/")
-    public RespPageBean getEmployeeByPage( Customer customer, Date[] beginDateScope) {
-        return customerService.getCustomerByPage(customer,beginDateScope);
+    public RespPageBean getEmployeeByPage( @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer size,Customer customer, Date[] beginDateScope) {
+        return customerService.getCustomerByPage(page,size,customer,beginDateScope);
     }
 
     @PostMapping("/")
@@ -35,6 +35,22 @@ public class CustomerController {
             return RespBean.ok("添加成功!");
         }
         return RespBean.error("添加失败!");
+    }
+    @PutMapping("/")
+    public RespBean updateCus(@RequestBody Customer customer) {
+        if (customerService.updateById(customer) ) {
+            return RespBean.ok("更新成功!");
+        }
+        return RespBean.error("更新失败!");
+    }
+
+    @DeleteMapping("/{id}")
+    public RespBean deleteCusById(@PathVariable Integer id) {
+
+        if (customerService.removeById(id)) {
+            return RespBean.ok("删除成功!");
+        }
+        return RespBean.error("删除失败!");
     }
 
 }

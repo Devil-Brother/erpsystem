@@ -18,6 +18,12 @@ public interface ProductTempMapper extends BaseMapper<ProductTemp> {
      * @return
      */
     List<ProductTemp> getAllProductByOrderId(Integer oid);
+    /**
+     * 查询未审核订单的产品
+     * @param sid
+     * @return
+     */
+    List<ProductTemp> getAllProductBySaleId(Integer sid);
 }
 
 

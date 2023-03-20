@@ -26,10 +26,12 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, Customer>
     CustomerMapper customerMapper;
 
     @Override
-    public RespPageBean getCustomerByPage(Customer customer, Date[] beginDateScope) {
-        Page<Customer> page = new Page<>();
+    public RespPageBean getCustomerByPage(Integer current, Integer size, Customer customer, Date[] beginDateScope) {
+        if (current != null && size != null) {
+            current = (current - 1) * size;
+        }
+        Page<Customer> page = new Page<>(current,size);
         customerMapper.selectPage(page,null);
-
         List<Customer> records = page.getRecords();
         long total = page.getTotal();
 
@@ -39,6 +41,8 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, Customer>
         return respPageBean;
 
     }
+
+
 }
 
 

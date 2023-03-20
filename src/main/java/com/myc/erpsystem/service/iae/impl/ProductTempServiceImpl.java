@@ -28,13 +28,13 @@ ProductTempMapper productTempMapper;
         return products;
     }
 
+
+
     @Override
-    public Integer submitAllProductByOrderId(Integer id ,Product product) {
-        System.out.println();
+    public List<ProductTemp> getAllProductBySaleId(Integer id) {
 
-
-
-        return null;
+        List<ProductTemp>  products =  productTempMapper.getAllProductBySaleId(id);
+        return products;
     }
 }
 

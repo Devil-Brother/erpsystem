@@ -12,11 +12,6 @@ import java.util.Date;
 * @createDate 2023-03-14 15:05:42
 */
 public interface CustomerService extends IService<Customer> {
-    /**
-     * 客户分页
-     * @param customer
-     * @param beginDateScope
-     * @return
-     */
-    RespPageBean getCustomerByPage(Customer customer, Date[] beginDateScope);
+
+    RespPageBean getCustomerByPage(Integer page,Integer size,Customer customer, Date[] beginDateScope);
 }

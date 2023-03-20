@@ -17,7 +17,7 @@ import java.util.List;
 @Repository
 public interface OrderMapper extends BaseMapper<Order> {
     /**
-     * 查询所有未审核订单
+     * 查询未审核订单
      * @param page
      * @param size
      * @param order
@@ -25,6 +25,15 @@ public interface OrderMapper extends BaseMapper<Order> {
      * @return
      */
     List<Order> getOrderByPage(@Param("page") Integer page, @Param("size") Integer size, @Param("ord") Order order,@Param("beginDateScope") Date[] beginDateScope);
+
+    /**
+     * 未审核订单的数量
+     * @param page
+     * @param size
+     * @param order
+     * @param beginDateScope
+     * @return
+     */
     Integer getEmployeeByPageCount(@Param("page") Integer page, @Param("size") Integer size, @Param("ord") Order order,@Param("beginDateScope") Date[] beginDateScope);
 }
 

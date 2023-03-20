@@ -105,7 +105,7 @@ public class Order implements Serializable {
     @TableField(value = "money")
     private String money;
 
-//    @TableField(exist = false)
-//    private static final long serialVersionUID = 1L;
+    @TableField(exist = false)
+    private static final long serialVersionUID = 1L;
 
 }

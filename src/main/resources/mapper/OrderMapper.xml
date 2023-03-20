@@ -7,7 +7,6 @@
     <resultMap id="BaseResultMap" type="com.myc.erpsystem.model.iae.Order">
             <id property="id" column="id" jdbcType="INTEGER"/>
             <result property="productId" column="productId" jdbcType="INTEGER"/>
-
             <result property="people" column="people" jdbcType="VARCHAR"/>
             <result property="orderNo" column="orderNo" jdbcType="VARCHAR"/>
             <result property="date" column="date" jdbcType="DATE"/>

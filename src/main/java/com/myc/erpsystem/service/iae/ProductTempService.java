@@ -20,9 +20,9 @@ public interface ProductTempService extends IService<ProductTemp> {
     List<ProductTemp> getAllProductByOrderId(Integer id);
 
     /**
-     * 提交产品到产品库
+     * 通过销售订单id获取产品
      * @param id
      * @return
      */
-    Integer submitAllProductByOrderId(Integer id, Product product);
+    List<ProductTemp> getAllProductBySaleId(Integer id);
 }

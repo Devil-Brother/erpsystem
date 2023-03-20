@@ -40,5 +40,15 @@
             and op.oid=#{oid}
         </if>
 </select>
+    <select id="getAllProductBySaleId" resultType="com.myc.erpsystem.model.iae.ProductTemp">
+        select p.*,
+        s.`name` as storeName,
+        um.unit as unitMeas,us.unit as unitSpec,pt.`name` type
+        FROM product_temp p,product_type pt,unit_meas um,unit_spec us,store s,sale_product as op
+        WHERE p.typeId=pt.id  AND p.unitMeasId = um.id	AND p.unitSpecId=us.id AND s.id = p.storeId AND op.pid = p.id
+        <if test="sid != null">
+            and op.sid=#{sid}
+        </if>
+    </select>
 
 </mapper>
