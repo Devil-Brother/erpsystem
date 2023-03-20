@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.myc.erpsystem.mapper.iae.SalesMapper">
+
+    <resultMap id="BaseResultMap" type="com.myc.erpsystem.model.iae.Sales">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="saleNo" column="saleNo" jdbcType="VARCHAR"/>
+            <result property="productid" column="productid" jdbcType="INTEGER"/>
+            <result property="customerId" column="customerId" jdbcType="INTEGER"/>
+            <result property="examineId" column="examineId" jdbcType="INTEGER"/>
+            <result property="people" column="people" jdbcType="VARCHAR"/>
+            <result property="date" column="date" jdbcType="DATE"/>
+            <result property="telephone" column="telephone" jdbcType="VARCHAR"/>
+            <result property="address" column="address" jdbcType="VARCHAR"/>
+            <result property="complete" column="complete" jdbcType="TINYINT"/>
+            <result property="remarks" column="remarks" jdbcType="VARCHAR"/>
+            <result property="money" column="money" jdbcType="VARCHAR"/>
+        <association property="customer" javaType="com.myc.erpsystem.model.iae.Customer">
+            <id column="sid" property="id"/>
+            <result column="sname" property="name"/>
+            <result column="saddress" property="address"/>
+        </association>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,saleNo,productid,
+        customerId,examineId,people,
+        date,telephone,address,
+        complete,remarks,money
+    </sql>
+    <select id="getSaleByPage" resultMap="BaseResultMap">
+        select o.*,
+
+        s.id	as sid,s.`name` as sname,s.address as saddress
+        from sales as  o,customer as s
+        where  o.customerId=s.id
+
+        <if test="sales.complete !=null  " >
+            and o.complete =#{sales.complete}
+        </if>
+        <if test="sales.saleNo !=null and sales.saleNo != '' " >
+            and o.saleNo =#{sales.saleNo}
+        </if>
+        <if test="page !=null and size!=null">
+            limit #{page},#{size}
+        </if>
+    </select>
+    <select id="getSaleByPageCount" resultType="java.lang.Long">
+        select count(*)
+        from sales as  o,customer as s
+        where  o.customerId=s.id
+
+        <if test="sales.complete !=null  " >
+            and o.complete =#{sales.complete}
+        </if>
+        <if test="sales.saleNo !=null and sales.saleNo != '' " >
+            and o.saleNo =#{sales.saleNo}
+        </if>
+
+    </select>
+</mapper>
