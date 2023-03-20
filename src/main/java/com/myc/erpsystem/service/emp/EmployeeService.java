@@ -17,7 +17,32 @@ import java.util.Date;
  */
 
 public interface EmployeeService extends IService<Employee> {
-
+    /**
+     * 分页获取员工
+     * @param page
+     * @param size
+     * @param employee
+     * @param beginDateScope
+     * @return
+     */
     RespPageBean getEmployeeByPage(Integer page, Integer size, Employee employee, Date[] beginDateScope);
+
+    int addEmp(Employee employee);
+
+    int deleteEmpByEid(Integer id);
+
+    int updateEmp(Employee employee);
+
+    /**
+     *
+     * @param page
+     * @param size
+     * @return
+     */
+    RespPageBean getEmployeeByPageWithSalary(Integer page, Integer size);
+
+    Integer updateEmployeeSalaryById(Integer eid, Integer sid);
+
+    Integer maxWorkID();
 
 }

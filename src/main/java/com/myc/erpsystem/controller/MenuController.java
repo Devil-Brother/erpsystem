@@ -1,7 +1,7 @@
 package com.myc.erpsystem.controller;
 
 import com.myc.erpsystem.model.Menu;
-import com.myc.erpsystem.service.MenuService;
+import com.myc.erpsystem.service.basic.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

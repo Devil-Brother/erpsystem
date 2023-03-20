@@ -3,7 +3,7 @@ package com.myc.erpsystem.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.myc.erpsystem.model.Hr;
 import com.myc.erpsystem.model.RespBean;
-import com.myc.erpsystem.service.HrService;
+import com.myc.erpsystem.service.basic.HrService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

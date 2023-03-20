@@ -1,0 +1,45 @@
+spring:
+  datasource:
+
+    #mysql
+    #com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://localhost:3306/erp?useUnicode=true&characterEncoding=utf8
+    username: root
+    password: mycssg1314
+    #关闭security
+    driver-class-name: com.mysql.cj.jdbc.Driver
+#  autoconfigure:
+#    exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+  redis:
+    host: 162.14.97.125
+    port: 6379
+    password: 123456
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1ms
+        max-idle: 500
+        min-idle: 0
+    lettuce:
+        shutdown-timeout: 0ms
+  cache:
+    redis:
+      time-to-live: 1800000 #缓存时间
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    #    关闭驼峰
+  #在映射实体或者属性时，将数据库中表名和字段名中的下划线去掉，按照驼峰命名法映射 address_book ---> addressBook
+    map-underscore-to-camel-case: false
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.myc.erpsystem.model
+
+server:
+  compression:
+    enabled: true
+  port: 8081
+
+#  redis
+
+
+

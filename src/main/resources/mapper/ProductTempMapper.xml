@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.myc.erpsystem.mapper.iae.ProductTempMapper">
+
+    <resultMap id="BaseResultMap" type="com.myc.erpsystem.model.iae.ProductTemp">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="code" column="code" jdbcType="VARCHAR"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="typeId" column="typeId" jdbcType="VARCHAR"/>
+            <result property="number" column="number" jdbcType="INTEGER"/>
+            <result property="unitMeasId" column="unitMeasId" jdbcType="INTEGER"/>
+            <result property="price" column="price" jdbcType="DECIMAL"/>
+            <result property="storeId" column="storeId" jdbcType="INTEGER"/>
+            <result property="norms" column="norms" jdbcType="VARCHAR"/>
+            <result property="unitSpecId" column="unitSpecId" jdbcType="INTEGER"/>
+            <result property="remark" column="remark" jdbcType="VARCHAR"/>
+
+        <result property="type" column="type" jdbcType="VARCHAR"/>
+        <result property="unitMeas" column="unitMeas" jdbcType="VARCHAR"/>
+        <result property="unitSpec" column="unitSpec" jdbcType="VARCHAR"/>
+        <result property="storeName" column="storeName" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,code,name,
+        typeId,number,unitMeasId,
+        price,storeId,norms,
+        unitSpecId,remark
+    </sql>
+    <select id="getAllProductByOrderId" resultType="com.myc.erpsystem.model.iae.ProductTemp">
+        select p.*,
+               s.`name` as storeName,
+               um.unit as unitMeas,us.unit as unitSpec,pt.`name` type
+        FROM product_temp p,product_type pt,unit_meas um,unit_spec us,store s,order_product as op
+        WHERE p.typeId=pt.id  AND p.unitMeasId = um.id	AND p.unitSpecId=us.id AND s.id = p.storeId
+          AND op.pid = p.id
+        <if test="oid != null">
+            and op.oid=#{oid}
+        </if>
+</select>
+
+</mapper>

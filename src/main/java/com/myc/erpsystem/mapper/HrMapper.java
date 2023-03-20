@@ -19,7 +19,29 @@ import java.util.List;
  */
 @Repository
 public interface HrMapper extends BaseMapper<Hr> {
-
-
     List<Role> getHrRolesById(Integer id);
+
+
+    int deleteByPrimaryKey(Integer id);
+
+    int insert(Hr record);
+
+    int insertSelective(Hr record);
+
+    Hr selectByPrimaryKey(Integer id);
+
+    int updateByPrimaryKeySelective(Hr record);
+
+    int updateByPrimaryKey(Hr record);
+
+    Hr loadUserByUsername(String username);
+
+
+    List<Hr> getAllHrs(@Param("hrid") Integer hrid, @Param("keywords") String keywords);
+
+    List<Hr> getAllHrsExceptCurrentHr(Integer id);
+
+    Integer updatePasswd(@Param("hrid") Integer hrid, @Param("encodePass") String encodePass);
+
+    Integer updateUserface(@Param("url") String url, @Param("id") Integer id);
 }

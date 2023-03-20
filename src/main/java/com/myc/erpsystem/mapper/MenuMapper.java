@@ -3,6 +3,7 @@ package com.myc.erpsystem.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.myc.erpsystem.model.Hr;
 import com.myc.erpsystem.model.Menu;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -14,25 +15,19 @@ import java.util.List;
  * @Description: TODO
  * @Version 1.0
  */
-
+@Repository
 public interface MenuMapper extends BaseMapper<Menu> {
-    int deleteByPrimaryKey(Integer id);
-
-    int insert(Menu record);
-
-    int insertSelective(Menu record);
-
-    Menu selectByPrimaryKey(Integer id);
-
-    int updateByPrimaryKeySelective(Menu record);
-
-    int updateByPrimaryKey(Menu record);
-
+    /**
+     * 通过人事id查询对应菜单
+     * @param hrid
+     * @return
+     */
     List<Menu> getMenusByHrId(Integer hrid);
 
+    /**
+     * 通过角色查询所有菜单
+     * @return
+     */
     List<Menu> getAllMenusWithRole();
 
-    List<Menu> getAllMenus();
-
-    List<Integer> getMidsByRid(Integer rid);
 }

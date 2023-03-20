@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.myc.erpsystem.mapper.store.ProductMapper">
+
+    <resultMap id="BaseResultMap" type="com.myc.erpsystem.model.store.Product">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="code" column="code" jdbcType="VARCHAR"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="typeId" column="typeId" jdbcType="VARCHAR"/>
+            <result property="number" column="number" jdbcType="INTEGER"/>
+            <result property="unitMeasId" column="unitMeasId" jdbcType="INTEGER"/>
+            <result property="price" column="price" jdbcType="DECIMAL"/>
+            <result property="storeId" column="storeId" jdbcType="INTEGER"/>
+            <result property="norms" column="norms" jdbcType="VARCHAR"/>
+            <result property="unitSpecId" column="unitSpecId" jdbcType="INTEGER"/>
+            <result property="remark" column="remark" jdbcType="VARCHAR"/>
+            <result property="type" column="type" jdbcType="VARCHAR"/>
+            <result property="unitMeas" column="unitMeas" jdbcType="VARCHAR"/>
+            <result property="unitSpec" column="unitSpec" jdbcType="VARCHAR"/>
+            <result property="storeName" column="storeName" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,code,name,
+        typeId,number,unitMeasId,
+        price,storeId,norms,
+        unitSpecId,remark
+    </sql>
+    <select id="selectProductPage" resultMap="BaseResultMap">
+
+        select p.*,
+        s.`name` as storeName,
+        um.unit as unitMeas,us.unit as unitSpec,pt.`name` type
+        FROM product p,product_type pt,unit_meas um,unit_spec us,store s
+        WHERE p.typeId=pt.id  AND p.unitMeasId = um.id	AND p.unitSpecId=us.id AND s.id = p.storeId
+        <if test="product.name !=null and product.name!=''">
+            and p.name like concat('%',#{product.name},'%')
+        </if>
+        <if test="product.code !=null">
+            and p.code =#{product.code}
+        </if>
+        <if test="product.typeId !=null">
+            and p.typeId =#{product.typeId}
+        </if>
+        <if test="product.storeId !=null">
+            and p.storeId =#{product.storeId}
+        </if>
+        <if test="page !=null and size!=null">
+            limit #{page},#{size}
+        </if>
+
+    </select>
+    <select id="selectProductCount" resultType="integer">
+
+        select count(*)
+        FROM product p,product_type pt,unit_meas um,unit_spec us,store s
+        WHERE p.typeId=pt.id  AND p.unitMeasId = um.id	AND p.unitSpecId=us.id AND s.id = p.storeId
+        <if test="product.name !=null and product.name!=''">
+            and p.name like concat('%',#{product.name},'%')
+        </if>
+        <if test="product.code !=null">
+            and p.code =#{product.code}
+        </if>
+        <if test="product.storeId !=null">
+            and p.storeId =#{product.storeId}
+        </if>
+        <if test="product.code !=null">
+            and p.typeId =#{product.typeId}
+        </if>
+        <if test="page !=null and size!=null">
+            limit #{page},#{size}
+        </if>
+    </select>
+</mapper>

@@ -1,7 +1,9 @@
 package com.myc.erpsystem.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.myc.erpsystem.model.MenuRole;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 /**
  * @Author myc
@@ -11,21 +13,6 @@ import org.apache.ibatis.annotations.Param;
  * @Description: TODO
  * @Version 1.0
  */
-
-public interface MenuRoleMapper {
-    int deleteByPrimaryKey(Integer id);
-
-    int insert(MenuRole record);
-
-    int insertSelective(MenuRole record);
-
-    MenuRole selectByPrimaryKey(Integer id);
-
-    int updateByPrimaryKeySelective(MenuRole record);
-
-    int updateByPrimaryKey(MenuRole record);
-
-    void deleteByRid(Integer rid);
-
-    Integer insertRecord(@Param("rid") Integer rid, @Param("mids") Integer[] mids);
+@Repository
+public interface MenuRoleMapper  extends BaseMapper<MenuRole> {
 }

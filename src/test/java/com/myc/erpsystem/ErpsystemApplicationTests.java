@@ -20,6 +20,8 @@ class ErpsystemApplicationTests {
 private   HrMapper hrMapper;
     @Autowired
     EmployeeMapper employeeMapper;
+    @Autowired
+//    private RedisTemplate<String,String> redisTemplate;
 
     @Test
     void contextLoads() {
@@ -36,14 +38,17 @@ void contextLoadsPage() {
 //        userLambdaQueryWrapper.like(Employee::getUsername , "k");
 
     Page<Employee> userPage = new Page<>(1, 2);
-//        IPage<Employee> userIPage = Employee.selectPage(userPage , userLambdaQueryWrapper);
-    Page<Employee> employeePage = employeeMapper.selectPage(userPage,null);
+    employeeMapper.selectPage(userPage,null);
     System.out.println("总页数： "+userPage.getPages());
     System.out.println("总记录数： "+userPage.getTotal());
-//        userIPage.getRecords().forEach(System.out::println);
     System.out.println("====================分页查询");
     System.out.println(userPage);
 }
+/*@Test
+    void contextLoadsRedis(){
+    redisTemplate.opsForValue().set("myKey","myValue");
+    System.out.println(redisTemplate.opsForValue().get("myKey"));
+}*/
 
 
 }

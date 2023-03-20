@@ -23,34 +23,12 @@
     <sql id="Base_Column_List">
     id, name, phone, telephone, address, enabled, username, password, userface, remark
   </sql>
-    <select id="getAllHrsExceptCurrentHr" resultMap="BaseResultMap">
-        select * from hr where id !=#{id};
-    </select>
-    <select id="getAllHrs" resultMap="HrWithRoles">
-        select hr.id, hr.name, hr.phone, hr.telephone, hr.address, hr.enabled, hr.username, hr.userface,
-        hr.remark,r.`id` as rid,r.`name` as rname,r.`nameZh` as rnameZh from hr left join hr_role hrr on
-        hr.`id`=hrr.`hrid` left join role r on hrr.`rid`=r.`id` where hr.`id`!=#{hrid}
-        <if test="keywords!=null">
-            and hr.name like concat('%',#{keywords},'%')
-        </if>
-        order by hr.id
-    </select>
+
     <select id="getHrRolesById" resultType="com.myc.erpsystem.model.Role">
     select r.* from role r,hr_role hrr where hrr.`rid`=r.`id` and hrr.`hr_id`=#{id}
   </select>
-    <select id="loadUserByUsername" resultMap="BaseResultMap">
-    select * from hr where username=#{username}
-  </select>
-    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        select
-        <include refid="Base_Column_List"/>
-        from hr
-        where id = #{id,jdbcType=INTEGER}
-    </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from hr
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
+
+
     <insert id="insert" parameterType="com.myc.erpsystem.model.Hr">
     insert into hr (id, name, phone, 
       telephone, address, enabled, 
@@ -61,6 +39,35 @@
       #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{userface,jdbcType=VARCHAR}, 
       #{remark,jdbcType=VARCHAR})
   </insert>
+
+
+    <select id="getAllHrsExceptCurrentHr" resultMap="BaseResultMap">
+        select * from hr where id !=#{id};
+    </select>
+    <select id="getAllHrs" resultMap="HrWithRoles">
+        select hr.id, hr.name, hr.phone, hr.telephone, hr.address, hr.enabled, hr.username, hr.userface,
+        hr.remark,r.`id` as rid,r.`name` as rname,r.`nameZh` as rnameZh from hr left join hr_role hrr on
+        hr.`id`=hrr.`hr_id` left join role r on hrr.`rid`=r.`id` where hr.`id`!=#{hrid}
+        <if test="keywords!=null">
+            and hr.name like concat('%',#{keywords},'%')
+        </if>
+        order by hr.id
+    </select>
+
+    <select id="loadUserByUsername" resultMap="BaseResultMap">
+        select * from hr where username=#{username}
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from hr
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from hr
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+
     <insert id="insertSelective" parameterType="com.myc.erpsystem.model.Hr">
         insert into hr
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -168,16 +175,23 @@
         update hr set password = #{encodePass} where id=#{hrid};
     </update>
     <update id="updateByPrimaryKey" parameterType="com.myc.erpsystem.model.Hr">
-    update hr
-    set name = #{name,jdbcType=VARCHAR},
-      phone = #{phone,jdbcType=CHAR},
-      telephone = #{telephone,jdbcType=VARCHAR},
-      address = #{address,jdbcType=VARCHAR},
-      enabled = #{enabled,jdbcType=BIT},
-      username = #{username,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
-      userface = #{userface,jdbcType=VARCHAR},
-      remark = #{remark,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+        update hr
+        set name = #{name,jdbcType=VARCHAR},
+            phone = #{phone,jdbcType=CHAR},
+            telephone = #{telephone,jdbcType=VARCHAR},
+            address = #{address,jdbcType=VARCHAR},
+            enabled = #{enabled,jdbcType=BIT},
+            username = #{username,jdbcType=VARCHAR},
+            password = #{password,jdbcType=VARCHAR},
+            userface = #{userface,jdbcType=VARCHAR},
+            remark = #{remark,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+
+
+
+
+
+
 </mapper>

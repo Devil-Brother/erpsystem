@@ -1,5 +1,10 @@
 package com.myc.erpsystem.model;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+
 import java.io.Serializable;
 
 /**
@@ -11,24 +16,9 @@ import java.io.Serializable;
  * @Version 1.0
  */
 
-
+@Data
 public class Meta implements Serializable {
+
     private Boolean keepAlive;
     private Boolean requireAuth;
-
-    public Boolean getKeepAlive() {
-        return keepAlive;
-    }
-
-    public void setKeepAlive(Boolean keepAlive) {
-        this.keepAlive = keepAlive;
-    }
-
-    public Boolean getRequireAuth() {
-        return requireAuth;
-    }
-
-    public void setRequireAuth(Boolean requireAuth) {
-        this.requireAuth = requireAuth;
-    }
 }

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.myc.erpsystem.mapper.iae.OrderMapper">
+
+    <resultMap id="BaseResultMap" type="com.myc.erpsystem.model.iae.Order">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="productId" column="productId" jdbcType="INTEGER"/>
+
+            <result property="people" column="people" jdbcType="VARCHAR"/>
+            <result property="orderNo" column="orderNo" jdbcType="VARCHAR"/>
+            <result property="date" column="date" jdbcType="DATE"/>
+            <result property="telephone" column="telephone" jdbcType="VARCHAR"/>
+            <result property="address" column="address" jdbcType="VARCHAR"/>
+            <result property="complete" column="complete" jdbcType="TINYINT"/>
+            <result property="remarks" column="remarks" jdbcType="VARCHAR"/>
+            <result property="money" column="money" jdbcType="VARCHAR"/>
+        <association property="supplier" javaType="com.myc.erpsystem.model.iae.Supplier">
+            <id column="sid" property="id"/>
+            <result column="sname" property="name"/>
+            <result column="saddress" property="address"/>
+        </association>
+
+
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,productId,supplierId,
+        examineId,people,date,
+        telephone,address,complete,
+        remarks,money
+    </sql>
+    <select id="getOrderByPage" resultMap="BaseResultMap">
+        select o.*,
+
+        s.id	as sid,s.`name` as sname,s.address as saddress
+        from orders as  o,supplier as s
+        where  o.supplierId=s.id
+        <if test="ord.complete !=null  " >
+            and o.complete =#{ord.complete}
+        </if>
+        <if test="ord.orderNo !=null and ord.orderNo != '' " >
+            and o.orderNo =#{ord.orderNo}
+        </if>
+        <if test="page !=null and size!=null">
+            limit #{page},#{size}
+        </if>
+    </select>
+    <!--   <select id="getOrderByPage" resultMap="BaseResultMap">
+        select o.*,
+        h.id as hid,h.`name` as hname,
+        s.id	as sid,s.`name` as sname,s.address as saddress
+        from orders as  o,hr as h,supplier as s
+        where h.id=o.examineId and  o.supplierId=s.id
+        <if test="ord.complete !=null  " >
+            and o.complete =#{ord.complete}
+        </if>
+        <if test="ord.orderNo !=null and ord.orderNo != '' " >
+            and o.orderNo =#{ord.orderNo}
+        </if>
+        <if test="page !=null and size!=null">
+            limit #{page},#{size}
+        </if>
+    </select>-->
+    <select id="getEmployeeByPageCount" resultType="integer">
+        select count(*)
+        from orders as  o,supplier as s
+        where  o.supplierId=s.id
+        <if test="ord.complete !=null  " >
+            and o.complete =#{ord.complete}
+        </if>
+        <if test="ord.orderNo !=null and ord.orderNo != '' " >
+            and o.orderNo =#{ord.orderNo}
+        </if>
+
+    </select>
+</mapper>

@@ -1,5 +1,6 @@
 package com.myc.erpsystem.model;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -22,10 +23,9 @@ import java.util.Objects;
  * @Description: TODO
  * @Version 1.0
  */
-@Data
 @TableName("hr")
 public class Hr implements UserDetails {
-    @TableId(value = "id")
+    @TableId(value = "id" ,type = IdType.AUTO)
     private Integer id;
 
     private String name;
@@ -61,12 +61,67 @@ public class Hr implements UserDetails {
         return Objects.hash(username);
     }
 
-    //是否 没过期？
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone == null ? null : phone.trim();
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone == null ? null : telephone.trim();
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address == null ? null : address.trim();
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
-    //是否 没锁定？
+
     @Override
     public boolean isAccountNonLocked() {
         return true;
@@ -76,7 +131,6 @@ public class Hr implements UserDetails {
     public boolean isCredentialsNonExpired() {
         return true;
     }
-    //是否 可用？
 
     @Override
     public boolean isEnabled() {
@@ -86,7 +140,7 @@ public class Hr implements UserDetails {
     public void setUsername(String username) {
         this.username = username == null ? null : username.trim();
     }
-    //我们定义的role交给springSecurity
+
     @Override
     @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -97,6 +151,22 @@ public class Hr implements UserDetails {
         return authorities;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password == null ? null : password.trim();
+    }
+
+    public String getUserface() {
+        return userface;
+    }
+
+    public void setUserface(String userface) {
+        this.userface = userface == null ? null : userface.trim();
+    }
+
     public String getRemark() {
         return remark;
     }
@@ -104,6 +174,4 @@ public class Hr implements UserDetails {
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
     }
-
-
 }

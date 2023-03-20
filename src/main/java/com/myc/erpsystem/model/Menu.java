@@ -1,8 +1,11 @@
 package com.myc.erpsystem.model;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
 import java.util.List;
@@ -19,6 +22,8 @@ import java.util.List;
 @Data
 @TableName("menu")
 public class Menu implements Serializable {
+    @TableId(value = "id" ,type = IdType.AUTO)
+
     private Integer id;
 
     private String url;
@@ -30,7 +35,7 @@ public class Menu implements Serializable {
     private String name;
 
     private String iconCls;
-
+    @TableField(exist = false)
     private Meta meta;
 
     private Integer parentId;

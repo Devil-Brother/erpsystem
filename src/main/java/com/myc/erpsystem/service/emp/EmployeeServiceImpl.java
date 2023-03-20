@@ -28,23 +28,83 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper,Employee> im
 EmployeeMapper employeeMapper;
     @Override
     public RespPageBean getEmployeeByPage(Integer current, Integer size, Employee employee, Date[] beginDateScope) {
-        Page<Employee> page = new Page<>(current, size);
-//        LambdaQueryWrapper<Employee> objectLambdaQueryWrapper = new LambdaQueryWrapper<>();
-        employeeMapper.selectPage(page,null);
-        long allPages = page.getPages();
-        long total =  page.getTotal();
-        List<Employee> records = page.getRecords();
 
-
-        System.out.println("====================分页查询");
-        System.out.println("总页数： "+allPages);
-        System.out.println("总记录数： "+total);
-        System.out.println("总记录数： "+records);
-
+        if (current != null && size != null) {
+            current = (current - 1) * size;
+        }
+        List<Employee> data = employeeMapper.getEmployeeByPage(current, size, employee, beginDateScope);
+        Integer total = employeeMapper.getEmployeeTotal(employee, beginDateScope);
         RespPageBean respPageBean = new RespPageBean();
-        respPageBean.setTotal((long) total);
-        respPageBean.setData(records);
-
+        respPageBean.setTotal(Long.valueOf(total));
+        respPageBean.setData(data);
         return respPageBean;
     }
+
+
+
+
+    /**
+     * 添加员工
+     * @param employee
+     * @return
+     */
+    @Override
+    public int addEmp(Employee employee) {
+/*
+  LambdaQueryWrapper<Employee> queryWrapper = new LambdaQueryWrapper<>();
+        employeeLambdaQueryWrapper.eq(Employee::getId,employee.getId());
+        */
+        int insert = employeeMapper.insert(employee);
+        return insert;
+    }
+
+    /**
+     *  删除员工
+     * @param id
+     * @return
+     */
+    @Override
+    public int deleteEmpByEid(Integer id) {
+        int i = employeeMapper.deleteById(id);
+        System.out.println(i);
+        return i;
+    }
+
+    /**
+     * 更新员工
+     * @param employee
+     * @return
+     */
+    @Override
+    public int updateEmp(Employee employee) {
+        LambdaQueryWrapper<Employee> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Employee::getId,employee.getId());
+        int update = employeeMapper.update(employee, queryWrapper);
+        return update;
+    }
+
+    @Override
+    public RespPageBean getEmployeeByPageWithSalary(Integer page, Integer size) {
+
+            if (page != null && size != null) {
+                page = (page - 1) * size;
+            }
+            List<Employee> list = employeeMapper.getEmployeeByPageWithSalary(page, size);
+            RespPageBean respPageBean = new RespPageBean();
+            respPageBean.setData(list);
+            respPageBean.setTotal(employeeMapper.getTotal(null, null));
+            return respPageBean;
+        }
+
+    @Override
+    public Integer updateEmployeeSalaryById(Integer eid, Integer sid) {
+        return employeeMapper.updateEmployeeSalaryById(eid, sid);
+
+    }
+
+    @Override
+    public Integer maxWorkID() {
+        return employeeMapper.maxWorkID();
+    }
+
 }
