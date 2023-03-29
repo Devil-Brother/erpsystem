@@ -1,4 +1,4 @@
-package com.myc.erpsystem.controller;
+package com.myc.erpsystem.controller.system;
 
 import com.myc.erpsystem.model.Menu;
 import com.myc.erpsystem.service.basic.MenuService;

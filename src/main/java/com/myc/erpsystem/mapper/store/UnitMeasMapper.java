@@ -1,5 +1,6 @@
 package com.myc.erpsystem.mapper.store;
 
+import com.myc.erpsystem.model.RespPageBean;
 import com.myc.erpsystem.model.store.UnitMeas;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
@@ -10,6 +11,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 * @Entity cen.domain.UnitMeas
 */
 public interface UnitMeasMapper extends BaseMapper<UnitMeas> {
+
 
 }
 

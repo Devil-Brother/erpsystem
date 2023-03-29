@@ -25,8 +25,8 @@ public class CustomerController {
 @Autowired
     CustomerService customerService;
     @GetMapping("/")
-    public RespPageBean getEmployeeByPage( @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer size,Customer customer, Date[] beginDateScope) {
-        return customerService.getCustomerByPage(page,size,customer,beginDateScope);
+    public RespPageBean getEmployeeByPage( @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer size,String name, Date[] beginDateScope) {
+        return customerService.getCustomerByPage(page,size,name,beginDateScope);
     }
 
     @PostMapping("/")

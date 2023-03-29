@@ -1,6 +1,7 @@
 package com.myc.erpsystem.utils;
 
 import com.myc.erpsystem.model.Hr;
+import com.myc.erpsystem.model.User;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
@@ -12,8 +13,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
  * @Version 1.0
  */
 
-public class HrUtils {
-    public static Hr getCurrentHr() {
-        return ((Hr) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+public class UserUtils {
+    public static User getCurrentHr() {
+        return ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
     }
 }

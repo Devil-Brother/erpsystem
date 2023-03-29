@@ -5,47 +5,53 @@
 <mapper namespace="com.myc.erpsystem.mapper.store.ProductMapper">
 
     <resultMap id="BaseResultMap" type="com.myc.erpsystem.model.store.Product">
-            <id property="id" column="id" jdbcType="INTEGER"/>
-            <result property="code" column="code" jdbcType="VARCHAR"/>
-            <result property="name" column="name" jdbcType="VARCHAR"/>
-            <result property="typeId" column="typeId" jdbcType="VARCHAR"/>
-            <result property="number" column="number" jdbcType="INTEGER"/>
-            <result property="unitMeasId" column="unitMeasId" jdbcType="INTEGER"/>
-            <result property="price" column="price" jdbcType="DECIMAL"/>
-            <result property="storeId" column="storeId" jdbcType="INTEGER"/>
-            <result property="norms" column="norms" jdbcType="VARCHAR"/>
-            <result property="unitSpecId" column="unitSpecId" jdbcType="INTEGER"/>
-            <result property="remark" column="remark" jdbcType="VARCHAR"/>
-            <result property="type" column="type" jdbcType="VARCHAR"/>
-            <result property="unitMeas" column="unitMeas" jdbcType="VARCHAR"/>
-            <result property="unitSpec" column="unitSpec" jdbcType="VARCHAR"/>
-            <result property="storeName" column="storeName" jdbcType="VARCHAR"/>
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="code" column="code" jdbcType="VARCHAR"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="type" column="type" jdbcType="VARCHAR"/>
+        <result property="number" column="number" jdbcType="INTEGER"/>
+        <result property="storeId" column="storeId" jdbcType="INTEGER"/>
+        <result property="norms" column="norms" jdbcType="VARCHAR"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <result property="unitMeas" column="unitMeas" jdbcType="VARCHAR"/>
+        <result property="unitSpec" column="unitSpec" jdbcType="VARCHAR"/>
+        <result property="storeName" column="storeName" jdbcType="VARCHAR"/>
+        <result property="supplierName" column="supplierName" jdbcType="VARCHAR"/>
+        <result property="supplierId" column="supplierId" jdbcType="INTEGER"/>
+        <result column="createDate" property="createDate" jdbcType="DATE"/>
+
+
     </resultMap>
 
-    <sql id="Base_Column_List">
-        id,code,name,
-        typeId,number,unitMeasId,
-        price,storeId,norms,
-        unitSpecId,remark
-    </sql>
-    <select id="selectProductPage" resultMap="BaseResultMap">
 
+    <select id="selectProductPage" resultMap="BaseResultMap">
         select p.*,
         s.`name` as storeName,
-        um.unit as unitMeas,us.unit as unitSpec,pt.`name` type
-        FROM product p,product_type pt,unit_meas um,unit_spec us,store s
-        WHERE p.typeId=pt.id  AND p.unitMeasId = um.id	AND p.unitSpecId=us.id AND s.id = p.storeId
+        supplier.`name` as supplierName
+        FROM product p,store s,supplier
+        WHERE p.storeId=s.id AND supplierId =supplier.id
+
         <if test="product.name !=null and product.name!=''">
             and p.name like concat('%',#{product.name},'%')
         </if>
-        <if test="product.code !=null">
-            and p.code =#{product.code}
+        <if test="product.supplierId !=null">
+            and p.supplierId =#{product.supplierId}
         </if>
-        <if test="product.typeId !=null">
-            and p.typeId =#{product.typeId}
-        </if>
-        <if test="product.storeId !=null">
+          <if test="product.storeId !=null">
             and p.storeId =#{product.storeId}
+        </if>
+
+        <if test="normalRequest.beginTime !=null">
+            AND p.createDate >= #{normalRequest.beginTime}
+        </if>
+        <if test="normalRequest.endTime !=null">
+            AND p.createDate &lt;= #{normalRequest.endTime}
+        </if>
+        <if test="normalRequest.beginPrice !=null">
+            AND p.price >= #{normalRequest.beginPrice}
+        </if>
+        <if test="normalRequest.endPrice !=null">
+            AND p.price &lt;= #{normalRequest.endPrice}
         </if>
         <if test="page !=null and size!=null">
             limit #{page},#{size}
@@ -53,24 +59,32 @@
 
     </select>
     <select id="selectProductCount" resultType="integer">
-
         select count(*)
-        FROM product p,product_type pt,unit_meas um,unit_spec us,store s
-        WHERE p.typeId=pt.id  AND p.unitMeasId = um.id	AND p.unitSpecId=us.id AND s.id = p.storeId
+        FROM product p,store s,supplier
+        WHERE p.storeId=s.id AND supplierId =supplier.id
+
         <if test="product.name !=null and product.name!=''">
             and p.name like concat('%',#{product.name},'%')
         </if>
-        <if test="product.code !=null">
-            and p.code =#{product.code}
+        <if test="product.supplierId !=null">
+            and p.supplierId =#{product.supplierId}
         </if>
         <if test="product.storeId !=null">
             and p.storeId =#{product.storeId}
         </if>
-        <if test="product.code !=null">
-            and p.typeId =#{product.typeId}
+        <if test="normalRequest.beginTime !=null">
+            AND p.createDate >= #{normalRequest.beginTime}
         </if>
-        <if test="page !=null and size!=null">
-            limit #{page},#{size}
+        <if test="normalRequest.endTime !=null">
+            AND p.createDate &lt;= #{normalRequest.endTime}
         </if>
+        <if test="normalRequest.beginPrice !=null">
+            AND p.price >= #{normalRequest.beginPrice}
+        </if>
+        <if test="normalRequest.endPrice !=null">
+            AND p.price &lt;= #{normalRequest.endPrice}
+        </if>
+
+
     </select>
 </mapper>

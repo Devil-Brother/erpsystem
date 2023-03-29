@@ -3,8 +3,9 @@ package com.myc.erpsystem.controller.department;
 import com.myc.erpsystem.model.Hr;
 import com.myc.erpsystem.model.RespBean;
 import com.myc.erpsystem.model.Role;
-import com.myc.erpsystem.service.basic.HrService;
+import com.myc.erpsystem.model.User;
 import com.myc.erpsystem.service.basic.RoleService;
+import com.myc.erpsystem.service.basic.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,16 +23,16 @@ import java.util.List;
 @RequestMapping("/system/hr")
 public class HrController {
     @Autowired
-    HrService hrService;
+    UserService hrService;
     @Autowired
     RoleService roleService;
     @GetMapping("/")
-    public List<Hr> getAllHrs(String keywords) {
+    public List<User> getAllHrs(String keywords) {
         return hrService.getAllHrs(keywords);
     }
 
     @PutMapping("/")
-    public RespBean updateHr(@RequestBody Hr hr) {
+    public RespBean updateHr(@RequestBody User hr) {
         if (hrService.updateHr(hr) == 1) {
             return RespBean.ok("更新成功!");
         }

@@ -47,12 +47,16 @@ public class PositionController {
 
     @DeleteMapping("/{id}")
     public RespBean deletePositionById(@PathVariable Integer id) {
-        boolean b = positionService.removeById(id);
-
+        try{
+          boolean b = positionService.removeById(id);
         if (b) {
             return RespBean.ok("删除成功!");
         }
         return RespBean.error("删除失败!");
+        }catch (Exception e){
+                    return RespBean.error("该部门下有员工");
+        }
+
     }
 
     @DeleteMapping("/")

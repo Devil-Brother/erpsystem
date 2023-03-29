@@ -2,24 +2,24 @@ package com.myc.erpsystem.service.iae.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.myc.erpsystem.mapper.iae.OrderProductMapper;
-import com.myc.erpsystem.mapper.iae.ProductTempMapper;
-import com.myc.erpsystem.mapper.iae.SupplierMapper;
+import com.myc.erpsystem.mapper.iae.*;
 import com.myc.erpsystem.mapper.store.ProductMapper;
 import com.myc.erpsystem.model.Hr;
+import com.myc.erpsystem.model.NormalRequest;
 import com.myc.erpsystem.model.RespPageBean;
+import com.myc.erpsystem.model.User;
 import com.myc.erpsystem.model.iae.Order;
-import com.myc.erpsystem.mapper.iae.OrderMapper;
+import com.myc.erpsystem.model.iae.OrderProduct;
 import com.myc.erpsystem.model.iae.ProductTemp;
 import com.myc.erpsystem.model.iae.Supplier;
 import com.myc.erpsystem.model.store.Product;
+import com.myc.erpsystem.model.store.ProductAttachOrder;
 import com.myc.erpsystem.service.iae.OrderService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -39,21 +39,15 @@ OrderMapper orderMapper;
 @Autowired
 ProductTempMapper productTemp;
     @Override
-    public RespPageBean getOrderByPage(Integer page, Integer size, Order order, Date[] beginDateScope) {
+    public RespPageBean getOrderByPage(Integer page, Integer size, Order order, NormalRequest normalRequest) {
 
         long total;
         if (page != null && size != null) {
             page = (page - 1) * size;
         }
 
-        List<Order> data = orderMapper.getOrderByPage(page, size, order, beginDateScope);
-           total = orderMapper.getEmployeeByPageCount(page, size, order, beginDateScope);
-/*//           用户id
-        Integer id = ((Hr) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
-//供应商
-        LambdaQueryWrapper<Supplier> supplierLambdaQueryWrapper = new LambdaQueryWrapper<>();
-        supplierLambdaQueryWrapper.eq(Supplier::getId,order.getSupplier());
-        Supplier supplier = supplierMapper.selectOne(supplierLambdaQueryWrapper);*/
+        List<Order> data = orderMapper.getOrderByPage(page, size, order, normalRequest);
+           total = orderMapper.getEmployeeByPageCount(page, size, order, normalRequest);
 
 
         RespPageBean respPageBean = new RespPageBean();
@@ -67,7 +61,7 @@ ProductTempMapper productTemp;
     @Override
     public boolean examineOrderById(Integer id) {
   //           用户id
-        Integer userid = ((Hr) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+        Integer userid = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
 //审核人员
 /*        LambdaQueryWrapper<Supplier> supplierLambdaQueryWrapper = new LambdaQueryWrapper<>();
 
@@ -113,6 +107,43 @@ ProductTempMapper productTemp;
 
         int i = orderMapper.updateById(order);
         return true;
+    }
+@Autowired
+    ProductAttachOrderMapper productAttachOrderMapper;
+    @Autowired
+    OrderProductMapper orderProductMapper;
+    @Override
+    public Boolean saveOrder(Order order) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+//        新建订单
+        order.setExamineId(user.getId());
+        order.setDate(new Date());
+        order.setComplete(0);
+        int insert = orderMapper.insert(order);
+//        查询出产品
+        LambdaQueryWrapper<ProductAttachOrder> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(ProductAttachOrder::getUserId,user.getId());
+        List<ProductAttachOrder> productAttachOrders = productAttachOrderMapper.selectList(queryWrapper);
+//        productAttachOrderMapper.delete(queryWrapper);
+//
+        System.out.println(order);
+
+//        将订单和当前的产品表进行关联关联的
+        LambdaQueryWrapper<OrderProduct> queryWrapperOrderProduct = new LambdaQueryWrapper<>();
+        for (ProductAttachOrder productAttachOrder : productAttachOrders) {
+            OrderProduct orderProduct = new OrderProduct();
+            orderProduct.setOid(order.getId());
+            orderProduct.setPid(productAttachOrder.getId());
+            orderProductMapper.insert(orderProduct);
+//            更新产品
+            productAttachOrder.setUserId(0);
+            productAttachOrderMapper.updateById(productAttachOrder);
+        }
+
+        if (insert==1)
+            return true;
+        return false;
     }
 }
 

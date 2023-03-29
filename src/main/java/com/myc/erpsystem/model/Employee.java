@@ -79,8 +79,7 @@ public class Employee implements Serializable {
     private Position position;
 @TableField(exist = false)
     private JobLevel jobLevel;
-@TableField(exist = false)
-    private Salary salary;
+
 
 
 

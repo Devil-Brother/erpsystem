@@ -7,8 +7,11 @@
     <resultMap id="BaseResultMap" type="com.myc.erpsystem.model.iae.Order">
             <id property="id" column="id" jdbcType="INTEGER"/>
             <result property="productId" column="productId" jdbcType="INTEGER"/>
+            <result property="storeId" column="storeId" jdbcType="INTEGER"/>
+            <result property="supplierId" column="supplierId" jdbcType="INTEGER"/>
             <result property="people" column="people" jdbcType="VARCHAR"/>
             <result property="orderNo" column="orderNo" jdbcType="VARCHAR"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
             <result property="date" column="date" jdbcType="DATE"/>
             <result property="telephone" column="telephone" jdbcType="VARCHAR"/>
             <result property="address" column="address" jdbcType="VARCHAR"/>
@@ -42,6 +45,16 @@
         <if test="ord.orderNo !=null and ord.orderNo != '' " >
             and o.orderNo =#{ord.orderNo}
         </if>
+        <if test="normalRequest.beginTime !=null">
+            AND o.createDate >= #{normalRequest.beginTime}
+        </if>
+        <if test="normalRequest.endTime !=null">
+            AND o.createDate &lt;= #{normalRequest.endTime}
+        </if>
+
+        <if test="ord.supplierId !=null">
+            AND o.supplierId = #{ord.supplierId}
+        </if>
         <if test="page !=null and size!=null">
             limit #{page},#{size}
         </if>
@@ -71,6 +84,16 @@
         </if>
         <if test="ord.orderNo !=null and ord.orderNo != '' " >
             and o.orderNo =#{ord.orderNo}
+        </if>
+        <if test="normalRequest.beginTime !=null">
+            AND o.createDate >= #{normalRequest.beginTime}
+        </if>
+        <if test="normalRequest.endTime !=null">
+            AND o.createDate &lt;= #{normalRequest.endTime}
+        </if>
+
+        <if test="ord.supplierId !=null">
+            AND o.supplierId = #{ord.supplierId}
         </if>
 
     </select>

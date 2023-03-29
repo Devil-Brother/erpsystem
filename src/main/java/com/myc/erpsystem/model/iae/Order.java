@@ -1,5 +1,6 @@
 package com.myc.erpsystem.model.iae;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -24,6 +25,12 @@ public class Order implements Serializable {
      */
     @TableField(exist = false)
     private Supplier supplier;
+    /**
+     * 仓库id
+     */
+    @TableField(value = "storeId")
+    private Integer storeId;
+
 
     /**
      * 审核人员
@@ -35,7 +42,7 @@ public class Order implements Serializable {
     /**
      * 订单id
      */
-    @TableId(value = "id")
+    @TableId(value = "id" ,type = IdType.AUTO)
     private Integer id;
 
     /**
@@ -55,6 +62,11 @@ public class Order implements Serializable {
      */
     @TableField(value = "orderNo")
     private String orderNo;
+    /**
+     * 订单名称
+     */
+    @TableField(value = "name")
+    private String name;
 
     /**
      * 审核人员id
@@ -104,6 +116,13 @@ public class Order implements Serializable {
      */
     @TableField(value = "money")
     private String money;
+
+
+    /**
+     * 订单金额
+     */
+    @TableField(exist = false)
+    private String number;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

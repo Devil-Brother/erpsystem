@@ -1,17 +1,15 @@
-package com.myc.erpsystem.service.basic;
+package com.myc.erpsystem.service.basic.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.myc.erpsystem.mapper.MenuRoleMapper;
-import com.myc.erpsystem.mapper.PositionMapper;
-import com.myc.erpsystem.mapper.department.RoleMapper;
+
+import com.myc.erpsystem.mapper.RoleMapper;
 import com.myc.erpsystem.model.MenuRole;
-import com.myc.erpsystem.model.Position;
 import com.myc.erpsystem.model.Role;
+import com.myc.erpsystem.service.basic.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Date;
 
 /**
  * @Author myc
@@ -22,7 +20,7 @@ import java.util.Date;
  * @Version 1.0
  */
 @Service
-public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements RoleService{
+public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements RoleService {
     @Autowired
     RoleMapper roleMapper;
     @Autowired

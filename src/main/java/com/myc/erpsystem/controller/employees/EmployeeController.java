@@ -25,16 +25,6 @@ import java.util.List;
 public class EmployeeController {
     @Autowired
     EmployeeService employeeService;
-    @Autowired
-    NationService nationService;
-    @Autowired
-    PoliticsstatusService politicsstatusService;
-    @Autowired
-    JobLevelService jobLevelService;
-    @Autowired
-    PositionService positionService;
-    @Autowired
-    DepartmentService departmentService;
 
 
 
@@ -78,6 +68,18 @@ public class EmployeeController {
                 .setObj(String.format("%08d", employeeService.maxWorkID() + 1));
         return respBean;
     }
+
+    @Autowired
+    NationService nationService;
+    @Autowired
+    PoliticsstatusService politicsstatusService;
+    @Autowired
+    JobLevelService jobLevelService;
+    @Autowired
+    PositionService positionService;
+    @Autowired
+    DepartmentService departmentService;
+
 
     @GetMapping("/politicsstatus")
     public List<Politicsstatus> getAllPoliticsstatus() {

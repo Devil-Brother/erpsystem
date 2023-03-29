@@ -13,5 +13,5 @@ import java.util.Date;
 */
 public interface CustomerService extends IService<Customer> {
 
-    RespPageBean getCustomerByPage(Integer page,Integer size,Customer customer, Date[] beginDateScope);
+    RespPageBean getCustomerByPage(Integer page,Integer size,String name, Date[] beginDateScope);
 }

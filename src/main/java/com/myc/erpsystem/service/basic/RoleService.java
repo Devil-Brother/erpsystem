@@ -1,11 +1,8 @@
 package com.myc.erpsystem.service.basic;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.myc.erpsystem.model.Department;
 import com.myc.erpsystem.model.Role;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 /**
  * @Author myc

@@ -1,5 +1,6 @@
 package com.myc.erpsystem.service.iae;
 
+import com.myc.erpsystem.model.NormalRequest;
 import com.myc.erpsystem.model.RespPageBean;
 import com.myc.erpsystem.model.iae.Order;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -17,10 +18,10 @@ public interface OrderService extends IService<Order> {
      * @param page
      * @param size
      * @param order
-     * @param beginDateScope
+     * @param  normalRequest
      * @return
      */
-    RespPageBean getOrderByPage(Integer page, Integer size, Order order, Date[] beginDateScope);
+    RespPageBean getOrderByPage(Integer page, Integer size, Order order, NormalRequest normalRequest);
 
     /**
      * 审核
@@ -35,4 +36,11 @@ public interface OrderService extends IService<Order> {
      * @return
      */
     boolean rejectOrderById(Integer id);
+
+    /**
+     * 制作订单
+     * @param order
+     * @return
+     */
+    Boolean saveOrder(Order order);
 }

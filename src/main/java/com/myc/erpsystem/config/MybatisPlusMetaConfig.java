@@ -23,7 +23,6 @@ public class MybatisPlusMetaConfig implements MetaObjectHandler  {
     public void insertFill(MetaObject metaObject) {
         this.setFieldValByName("createDate",new Date(),metaObject);
         this.setFieldValByName("enabled",true,metaObject);
-
     }
 
     @Override

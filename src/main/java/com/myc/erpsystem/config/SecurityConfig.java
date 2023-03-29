@@ -1,9 +1,11 @@
 package com.myc.erpsystem.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.myc.erpsystem.model.Hr;
+
 import com.myc.erpsystem.model.RespBean;
-import com.myc.erpsystem.service.basic.HrService;
+
+import com.myc.erpsystem.model.User;
+import com.myc.erpsystem.service.basic.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,7 +38,7 @@ import java.io.PrintWriter;
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-    HrService hrService;
+    UserService hrService;
     @Autowired
     CustomFilterInvocationSecurityMetadataSource customFilterInvocationSecurityMetadataSource;
     @Autowired
@@ -49,7 +51,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     //配置认证的实现方式
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        System.out.println("123");
         auth.userDetailsService(hrService);
     }
     //不需要过滤的地址
@@ -64,7 +65,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         loginFilter.setAuthenticationSuccessHandler((request, response, authentication) -> {
                     response.setContentType("application/json;charset=utf-8");
                     PrintWriter out = response.getWriter();
-                    Hr hr = (Hr) authentication.getPrincipal();
+                    User hr = (User) authentication.getPrincipal();
                     hr.setPassword(null);
                     RespBean ok = RespBean.ok("登录成功!", hr);
                     String s = new ObjectMapper().writeValueAsString(ok);

@@ -1,4 +1,4 @@
-package com.myc.erpsystem.mapper.department;
+package com.myc.erpsystem.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.myc.erpsystem.model.Role;

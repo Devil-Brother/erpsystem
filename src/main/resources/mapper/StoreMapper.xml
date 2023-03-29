@@ -8,9 +8,13 @@
             <id property="id" column="id" jdbcType="INTEGER"/>
             <result property="name" column="name" jdbcType="VARCHAR"/>
             <result property="image" column="image" jdbcType="VARCHAR"/>
+            <result property="createDate" column="createDate" jdbcType="DATE"/>
+            <result property="space" column="space" jdbcType="INTEGER"/>
+            <result property="enable" column="enable" jdbcType="BIT"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,name,image
+        id,name,image,
+        date,space,enable
     </sql>
 </mapper>

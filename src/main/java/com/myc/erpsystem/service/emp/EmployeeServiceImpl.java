@@ -11,6 +11,7 @@ import com.myc.erpsystem.model.RespPageBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -30,7 +31,7 @@ EmployeeMapper employeeMapper;
     public RespPageBean getEmployeeByPage(Integer current, Integer size, Employee employee, Date[] beginDateScope) {
 
         if (current != null && size != null) {
-            current = (current - 1) * size;
+            current = (current - 1) ;
         }
         List<Employee> data = employeeMapper.getEmployeeByPage(current, size, employee, beginDateScope);
         Integer total = employeeMapper.getEmployeeTotal(employee, beginDateScope);
@@ -50,10 +51,22 @@ EmployeeMapper employeeMapper;
      */
     @Override
     public int addEmp(Employee employee) {
-/*
-  LambdaQueryWrapper<Employee> queryWrapper = new LambdaQueryWrapper<>();
-        employeeLambdaQueryWrapper.eq(Employee::getId,employee.getId());
-        */
+//工号
+        SimpleDateFormat formatter = new SimpleDateFormat("MM-dd");
+        Date date = new Date();
+        String today = formatter.format(date);
+        String[] str=today.split("-");
+
+        String substring = employee.getIdCard().substring(14, 18);
+        Integer departmentId = employee.getDepartmentId();
+
+        String workId="";
+        workId+= (departmentId+substring);
+        for (String s : str) {
+            workId+=s;
+        }
+
+
         int insert = employeeMapper.insert(employee);
         return insert;
     }

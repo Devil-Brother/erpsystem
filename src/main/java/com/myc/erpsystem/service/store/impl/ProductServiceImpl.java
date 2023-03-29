@@ -3,6 +3,7 @@ package com.myc.erpsystem.service.store.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.myc.erpsystem.mapper.store.ProStoMapper;
+import com.myc.erpsystem.model.NormalRequest;
 import com.myc.erpsystem.model.RespPageBean;
 import com.myc.erpsystem.model.store.ProSto;
 import com.myc.erpsystem.model.store.Product;
@@ -27,12 +28,12 @@ ProductMapper productMapper;
 @Autowired
     ProStoMapper proStoMapper;
     @Override
-    public RespPageBean getProductPage(Integer page, Integer size, Product product) {
+    public RespPageBean getProductPage(Integer page, Integer size, Product product, NormalRequest normalRequest) {
         if (page != null && size != null) {
             page = (page - 1) * size;
         }
-       List<Product> products =  productMapper.selectProductPage(page,size,product);
-      Integer total =  productMapper.selectProductCount(page,size,product);
+       List<Product> products =  productMapper.selectProductPage(page,size,product,normalRequest);
+      Integer total =  productMapper.selectProductCount(page,size,product,normalRequest);
         RespPageBean respPageBean = new RespPageBean();
         respPageBean.setData(products);
         respPageBean.setTotal(Long.valueOf(total));

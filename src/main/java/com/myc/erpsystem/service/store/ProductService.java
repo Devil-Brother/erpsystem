@@ -1,5 +1,6 @@
 package com.myc.erpsystem.service.store;
 
+import com.myc.erpsystem.model.NormalRequest;
 import com.myc.erpsystem.model.RespPageBean;
 import com.myc.erpsystem.model.store.Product;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -15,9 +16,10 @@ public interface ProductService extends IService<Product> {
      * @param page
      * @param size
      * @param product
+     * @param normalRequest
      * @return
      */
-    RespPageBean getProductPage(Integer page, Integer size, Product product);
+    RespPageBean getProductPage(Integer page, Integer size, Product product ,NormalRequest normalRequest);
 /*
     *//**
      * 添加产品

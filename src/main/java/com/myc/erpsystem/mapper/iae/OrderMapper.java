@@ -1,5 +1,6 @@
 package com.myc.erpsystem.mapper.iae;
 
+import com.myc.erpsystem.model.NormalRequest;
 import com.myc.erpsystem.model.iae.Order;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
@@ -21,20 +22,20 @@ public interface OrderMapper extends BaseMapper<Order> {
      * @param page
      * @param size
      * @param order
-     * @param beginDateScope
+     * @param normalRequest
      * @return
      */
-    List<Order> getOrderByPage(@Param("page") Integer page, @Param("size") Integer size, @Param("ord") Order order,@Param("beginDateScope") Date[] beginDateScope);
+    List<Order> getOrderByPage(@Param("page") Integer page, @Param("size") Integer size, @Param("ord") Order order,@Param("normalRequest")  NormalRequest normalRequest);
 
     /**
      * 未审核订单的数量
      * @param page
      * @param size
      * @param order
-     * @param beginDateScope
+     * @param normalRequest
      * @return
      */
-    Integer getEmployeeByPageCount(@Param("page") Integer page, @Param("size") Integer size, @Param("ord") Order order,@Param("beginDateScope") Date[] beginDateScope);
+    Integer getEmployeeByPageCount(@Param("page") Integer page, @Param("size") Integer size, @Param("ord") Order order,@Param("normalRequest") NormalRequest normalRequest);
 }
 
 

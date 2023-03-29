@@ -1,12 +1,14 @@
-package com.myc.erpsystem.service.basic;
+package com.myc.erpsystem.service.basic.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.myc.erpsystem.mapper.MenuMapper;
 import com.myc.erpsystem.mapper.MenuRoleMapper;
-import com.myc.erpsystem.model.Hr;
+
 import com.myc.erpsystem.model.Menu;
 import com.myc.erpsystem.model.MenuRole;
+import com.myc.erpsystem.model.User;
+import com.myc.erpsystem.service.basic.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -37,7 +39,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
     public List<Menu> getMenusByHrId() {
         //        菜单需要用户权限才可以获取到，所以需用用SecurityContextHolder获取登录的用户
 //        只要获取到菜单，那么就会有对应的路径来访问其他资源
-        Integer id = ((Hr) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+        Integer id = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
         List<Menu> menusByHrId = menuMapper.getMenusByHrId(id);
         return menusByHrId;
     }

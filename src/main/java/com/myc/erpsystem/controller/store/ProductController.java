@@ -2,8 +2,11 @@ package com.myc.erpsystem.controller.store;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.myc.erpsystem.model.*;
+import com.myc.erpsystem.model.iae.Supplier;
 import com.myc.erpsystem.model.store.*;
+import com.myc.erpsystem.service.iae.SupplierService;
 import com.myc.erpsystem.service.store.*;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,12 +24,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/product")
 public class ProductController {
-@Autowired
+    @Autowired
     ProductService productService;
 
     @GetMapping("/")
-    public RespPageBean getProductPage(@RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer size, Product product) {
-        return productService.getProductPage(page, size, product);
+    public RespPageBean getProductPage(@RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer size, Product product,NormalRequest normalRequest) {
+        return productService.getProductPage(page, size, product,normalRequest);
     }
     @Autowired
     StoreService storeService;
@@ -36,7 +39,10 @@ public class ProductController {
     UnitSpecService unitSpecService;
     @Autowired
     UnitMeasService unitMeasService;
-
+    @Autowired
+    SupplierService supplierService;
+    @Autowired
+    ProductMaterialService productMaterialService;
     @GetMapping("/protype")
     public List<ProductType> getAllProType() {
         return productTypeService.list();
@@ -52,6 +58,14 @@ public class ProductController {
     @GetMapping("/unitspe")
     public List<UnitSpec> getAllUnitSpe() {
         return unitSpecService.list();
+    }
+    @GetMapping("/supplier")
+    public List<Supplier> getAllSupplier() {
+        return supplierService.list();
+    }
+    @GetMapping("/material")
+    public List<ProductMaterial> getAllMaterial() {
+        return productMaterialService.list();
     }
 
     @PostMapping("/")
