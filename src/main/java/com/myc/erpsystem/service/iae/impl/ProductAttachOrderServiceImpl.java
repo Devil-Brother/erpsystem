@@ -36,6 +36,15 @@ ProductAttachOrderMapper productAttachOrderMapper;
     OrderProductMapper orderProductMapper;
     @Override
     public List<ProductAttachOrder> getAllProduct(Integer id) {
+        if(id==null){
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            Integer userId = user.getId();
+            LambdaQueryWrapper<ProductAttachOrder> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.eq(ProductAttachOrder::getUserId,userId);
+            List<ProductAttachOrder> productAttachOrders = productAttachOrderMapper.selectList(queryWrapper);
+           return productAttachOrders;
+
+        }
         LambdaQueryWrapper<OrderProduct> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(OrderProduct::getOid,id);
 
@@ -55,9 +64,9 @@ return products;
     /*
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Integer id = user.getId();
-   *//*     LambdaQueryWrapper<ProductAttachOrder> queryWrapper = new LambdaQueryWrapper<>();
+     LambdaQueryWrapper<ProductAttachOrder> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(ProductAttachOrder::getUserId,id);
-        List<ProductAttachOrder> productAttachOrders = productAttachOrderMapper.selectList(queryWrapper);*//*
+        List<ProductAttachOrder> productAttachOrders = productAttachOrderMapper.selectList(queryWrapper);
         List<ProductAttachOrder> productAttachOrders = productAttachOrderMapper.selectProductPage(id);
 
         return productAttachOrders;*/

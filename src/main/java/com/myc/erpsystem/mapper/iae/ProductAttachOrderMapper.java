@@ -15,6 +15,8 @@ public interface ProductAttachOrderMapper extends BaseMapper<ProductAttachOrder>
     List<ProductAttachOrder> selectProductPage(Integer userId);
 
     Integer selectProductCount(Integer userId);
+
+    List<ProductAttachOrder> getAllProductByOrderId(Integer id);
 }
 
 

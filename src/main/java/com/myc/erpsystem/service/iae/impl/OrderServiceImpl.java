@@ -2,6 +2,7 @@ package com.myc.erpsystem.service.iae.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.myc.erpsystem.mapper.UserMapper;
 import com.myc.erpsystem.mapper.iae.*;
 import com.myc.erpsystem.mapper.store.ProductMapper;
 import com.myc.erpsystem.model.Hr;
@@ -15,6 +16,7 @@ import com.myc.erpsystem.model.iae.Supplier;
 import com.myc.erpsystem.model.store.Product;
 import com.myc.erpsystem.model.store.ProductAttachOrder;
 import com.myc.erpsystem.service.iae.OrderService;
+import com.myc.erpsystem.service.iae.ProductAttachOrderService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -38,6 +40,8 @@ OrderMapper orderMapper;
     SupplierMapper supplierMapper;
 @Autowired
 ProductTempMapper productTemp;
+@Autowired
+    UserMapper userMapper;
     @Override
     public RespPageBean getOrderByPage(Integer page, Integer size, Order order, NormalRequest normalRequest) {
 
@@ -70,6 +74,7 @@ ProductTempMapper productTemp;
         order.setId(id);
         order.setComplete(1);
         order.setExamineId(userid);
+
         int i = orderMapper.updateById(order);
 //        如果审核成功，那么就进行入库处理
         if (i==1){
@@ -79,14 +84,21 @@ ProductTempMapper productTemp;
     }
 @Autowired
     ProductMapper productMapper;
+    @Autowired
+    ProductAttachOrderMapper proMapper;
     private void putInStorage(Integer id) {
 
         ArrayList<Product> products = new ArrayList<>();
-        List<ProductTemp> productOrders =productTemp.getAllProductByOrderId(id);
-        for (ProductTemp productOrder : productOrders) {
+        Order order = orderMapper.selectById(id);
+        List<ProductAttachOrder> allProductByOrderId = proMapper.getAllProductByOrderId(order.getId());
+
+        for (ProductAttachOrder productOrder : allProductByOrderId) {
             Product product = new Product();
             BeanUtils.copyProperties(productOrder, product);
             product.setId(null);
+            product.setSupplierId(order.getSupplierId());
+            product.setStoreId(order.getSupplierId());
+
             products.add(product);
         productMapper.insert(product);
         }
@@ -98,13 +110,11 @@ ProductTempMapper productTemp;
 
     @Override
     public boolean rejectOrderById(Integer id) {
-        Integer userid = ((Hr) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
-
+        Integer userid = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
         Order order = new Order();
         order.setId(id);
         order.setComplete(2);
         order.setExamineId(userid);
-
         int i = orderMapper.updateById(order);
         return true;
     }
@@ -118,6 +128,7 @@ ProductTempMapper productTemp;
 
 //        新建订单
         order.setExamineId(user.getId());
+        order.setPeople(user.getName());
         order.setDate(new Date());
         order.setComplete(0);
         int insert = orderMapper.insert(order);

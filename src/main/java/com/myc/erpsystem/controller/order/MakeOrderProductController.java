@@ -31,7 +31,7 @@ public class MakeOrderProductController {
     ProductAttachOrderService productService;
 
     @GetMapping("/")
-    public List<ProductAttachOrder> getProductPage(@RequestParam Integer orderId) {
+    public List<ProductAttachOrder> getProductPage(@RequestParam(required = false) Integer orderId) {
       List<ProductAttachOrder> productAttachOrders =productService.getAllProduct(orderId);
         return productAttachOrders ;
     }
@@ -84,14 +84,14 @@ public class MakeOrderProductController {
         return RespBean.error("删除失败!");
     }
     @DeleteMapping("/deleteall")
-    public RespBean deleteAllProductByEid() {
+    public Object deleteAllProductByEid() {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         LambdaQueryWrapper<ProductAttachOrder> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(ProductAttachOrder::getUserId,user.getId());
         if (productService.remove(queryWrapper)) {
-            return RespBean.ok("");
+            return null;
         }
-        return RespBean.error("");
+        return null;
     }
 
 /*

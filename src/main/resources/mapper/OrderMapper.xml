@@ -39,6 +39,9 @@
         s.id	as sid,s.`name` as sname,s.address as saddress
         from orders as  o,supplier as s
         where  o.supplierId=s.id
+        <if test="ord.name !=null and ord.name!=''">
+            and o.name like concat('%',#{ord.name},'%')
+        </if>
         <if test="ord.complete !=null  " >
             and o.complete =#{ord.complete}
         </if>
@@ -79,6 +82,9 @@
         select count(*)
         from orders as  o,supplier as s
         where  o.supplierId=s.id
+        <if test="ord.name !=null and ord.name!=''">
+            and o.name like concat('%',#{ord.name},'%')
+        </if>
         <if test="ord.complete !=null  " >
             and o.complete =#{ord.complete}
         </if>

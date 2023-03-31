@@ -38,7 +38,7 @@ public class Product implements Serializable {
      * 供应商id
      */
     @TableField(value = "supplierId")
-    private String supplierId;
+    private Integer supplierId;
 
     /**
      * 产品类型
